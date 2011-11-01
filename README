@@ -1,0 +1,3 @@
+This program generates a password with random padding as suggested by https://www.grc.com/haystack.htm
+
+You can specify the lenght of the password and the alphabet(s) to use.
