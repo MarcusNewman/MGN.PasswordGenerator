@@ -19,7 +19,7 @@ namespace MGN.PasswordGenerator.Model
             AddCharacter(Numbers, filler, result);
             AddCharacter(Special, filler, result);
 
-            //fill the rest of the password with the special character
+            //fill the rest of the password with the filler character
             for (int i = 0; i < result.Length; i++)
             {
                 if (result[i] == '\0') result[i] = filler;
