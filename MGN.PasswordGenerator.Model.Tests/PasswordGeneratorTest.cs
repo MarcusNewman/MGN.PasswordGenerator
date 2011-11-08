@@ -1,6 +1,8 @@
 ﻿using MGN.PasswordGenerator.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+
 
 namespace MGN.PasswordGenerator.Model.Tests
 {
@@ -78,7 +80,14 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
-            //TODO: Filler should be disctint from the other characters. This will result in 5 unique characters being selected for the password.
+            //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
+            var uniqueCharacters = new List<char>();
+            foreach (var character in generatedPassword)
+            {
+                if (uniqueCharacters.Contains(character)) continue;
+                uniqueCharacters.Add(character);
+            }
+            Assert.IsTrue(uniqueCharacters.Count == 5, "Generated password should have 5 unique characters");
         }
 
         private static bool UsesOneCharIn(string generatedPassword, string alphabet)

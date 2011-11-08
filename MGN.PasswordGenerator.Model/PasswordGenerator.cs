@@ -11,7 +11,7 @@ namespace MGN.PasswordGenerator.Model
         public static Random random = InitRandom();
         public static String GeneratePassword()
         {
-            var result = new char[15];            
+            var result = new char[15];
             var filler = GetRandomChar(All);
 
             AddCharacter(LowerCase, filler, result);
@@ -34,17 +34,15 @@ namespace MGN.PasswordGenerator.Model
 
         private static void AddCharacter(string alphabet, char filler, char[] result)
         {
-            //skip the filler's alphabet
-            if (!(alphabet.Contains(filler)))
+            var character = GetRandomChar(alphabet);
+            //Ensure a unique filler
+            while (character == filler) character = GetRandomChar(alphabet);
+            var nextEmptyPosition = random.Next(result.Length);
+            while (result[nextEmptyPosition] != '\0')
             {
-                var character = GetRandomChar(alphabet);
-                var nextEmptyPosition = random.Next(result.Length);
-                while (result[nextEmptyPosition] != '\0')
-                {
-                    nextEmptyPosition = random.Next(result.Length);
-                }
-                result[nextEmptyPosition] = character;
+                nextEmptyPosition = random.Next(result.Length);
             }
+            result[nextEmptyPosition] = character;
         }
 
         private static Random InitRandom()
