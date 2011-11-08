@@ -78,12 +78,7 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
-            //Filler's alphabet should not be resued.  This will result in only 4 unique characters being selected for the password.           
-            Assert.IsTrue(UsesOneCharIn(generatedPassword, PasswordGenerator.Special), "Password had multiple special characters.");
-            Assert.IsTrue(UsesOneCharIn(generatedPassword, PasswordGenerator.Numbers), "Password had multiple numbers.");
-            Assert.IsTrue(UsesOneCharIn(generatedPassword, PasswordGenerator.UpperCase), "Password had multiple upper case letters.");
-            Assert.IsTrue(UsesOneCharIn(generatedPassword, PasswordGenerator.LowerCase), "Password had multiple lower case letters.");
-
+            //TODO: Filler should be disctint from the other characters. This will result in 5 unique characters being selected for the password.
         }
 
         private static bool UsesOneCharIn(string generatedPassword, string alphabet)
