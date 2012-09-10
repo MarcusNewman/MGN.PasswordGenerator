@@ -11,7 +11,7 @@ namespace MGN.PasswordGenerator.ConsoleApplication
         {
             for (var i = 0; i < 10; i++)
             {
-                Console.WriteLine(PasswordGenerator.Model.PasswordGenerator.GeneratePassword());
+                Console.WriteLine(PasswordGenerator.Model.PasswordGenerator.GeneratePassword(12));
             }
         }
     }

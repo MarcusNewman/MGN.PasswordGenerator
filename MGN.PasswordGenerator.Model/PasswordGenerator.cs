@@ -9,9 +9,9 @@ namespace MGN.PasswordGenerator.Model
     public static class PasswordGenerator
     {
         public static Random random = InitRandom();
-        public static String GeneratePassword()
+        public static String GeneratePassword(int length = 15)
         {
-            var result = new char[15];
+            var result = new char[length];
             var filler = GetRandomChar(All);
 
             AddCharacter(LowerCase, filler, result);
