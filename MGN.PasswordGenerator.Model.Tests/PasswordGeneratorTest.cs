@@ -2,12 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-
+using System.Reflection;
 
 namespace MGN.PasswordGenerator.Model.Tests
 {
-
-
     /// <summary>
     ///This is a test class for PasswordGeneratorTest and is intended
     ///to contain all PasswordGeneratorTest Unit Tests
@@ -15,10 +13,7 @@ namespace MGN.PasswordGenerator.Model.Tests
     [TestClass()]
     public class PasswordGeneratorTest
     {
-
-
         private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -34,7 +29,6 @@ namespace MGN.PasswordGenerator.Model.Tests
                 testContextInstance = value;
             }
         }
-
         #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:
@@ -64,8 +58,6 @@ namespace MGN.PasswordGenerator.Model.Tests
         //}
         //
         #endregion
-
-
         /// <summary>
         ///A test for GeneratePassword
         ///</summary>
@@ -73,7 +65,6 @@ namespace MGN.PasswordGenerator.Model.Tests
         public void GeneratePasswordTests()
         {
             var generatedPassword = PasswordGenerator.GeneratePassword();
-
             Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
             Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
@@ -104,6 +95,11 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(PasswordGenerator.Numbers == "0123456789");
             Assert.IsTrue(PasswordGenerator.Special == " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~");
             Assert.IsTrue(PasswordGenerator.All == (PasswordGenerator.LowerCase + PasswordGenerator.UpperCase + PasswordGenerator.Numbers + PasswordGenerator.Special));
+        }
+        [TestMethod]
+        public void GenerateShouldTakeBooleanUseFiller()
+        {
+            
         }
     }
 }
