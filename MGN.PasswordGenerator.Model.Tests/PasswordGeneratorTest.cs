@@ -177,20 +177,28 @@ namespace MGN.PasswordGenerator.Model.Tests
             var upperCase = GetFieldByName("UpperCase");
             var numbers = GetFieldByName("Numbers");
             var all = GetFieldByName("All");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             Assert.IsTrue(lowerCase == "abcdefghijklmnopqrstuvwxyz");
             Assert.IsTrue(upperCase == "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             Assert.IsTrue(numbers == "0123456789");
             Assert.IsTrue(special == " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~");
             Assert.IsTrue(all == (lowerCase + upperCase + numbers + special));
         }
-        //[TestMethod]
-        //public void GenerateShouldTakeBooleanUseFiller()
-        //{
 
-        //}
+        [TestMethod]
+        public void GenerateShouldTakeBooleanUseFiller()
+        {
+            //var passwordGeneratorType = GetPasswordGeneratorType();
+            //var generatedPassword = (String)passwordGeneratorType.InvokeMember(GeneratePasswordName,
+            //                                                                   BindingFlags.OptionalParamBinding |
+            //                                                                   BindingFlags.InvokeMethod |
+            //                                                                   BindingFlags.Static |
+            //                                                                   BindingFlags.Public,
+            //                                                                   null,
+            //                                                                   null,
+            //                                                                   new object[] { Type.Missing, false });
+            var passwordGeneratorType = GetPasswordGeneratorType();
+            var generatePasswordMember = passwordGeneratorType.GetMethod(GeneratePasswordName,new Type[]{typeof(Int32), typeof(Boolean)});
+            Assert.IsNotNull(generatePasswordMember, GeneratePasswordName + " should accept a boolean for it's second parameter.");
+        }
     }
 }

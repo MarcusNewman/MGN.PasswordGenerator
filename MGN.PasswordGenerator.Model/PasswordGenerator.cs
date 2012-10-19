@@ -9,7 +9,7 @@ namespace MGN.PasswordGenerator.Model
     public class PasswordGenerator
     {
         public static Random random = InitRandom();
-        public static String GeneratePassword(int length = 15)
+        public static String GeneratePassword(int length = 15, Boolean useFiller = true)
         {
             var result = new char[length];
             var filler = GetRandomChar(All);
