@@ -144,6 +144,14 @@ namespace MGN.PasswordGenerator.Model.Tests
                                                                                new object[] { Type.Missing });
             Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
             Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
+            var special = GetFieldByName("Special");
+            var lowerCase = GetFieldByName("LowerCase");
+            var upperCase = GetFieldByName("UpperCase");
+            var numbers = GetFieldByName("Numbers");
+            Assert.IsTrue(generatedPassword.IndexOfAny(special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
+            Assert.IsTrue(generatedPassword.IndexOfAny(numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
+            Assert.IsTrue(generatedPassword.IndexOfAny(upperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
+            Assert.IsTrue(generatedPassword.IndexOfAny(lowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
             var uniqueCharacters = new System.Collections.Generic.List<char>();
             foreach (var character in generatedPassword)
