@@ -10,14 +10,10 @@ namespace MGN.PasswordGenerator.Model.Tests
     [TestClass()]
     public class PasswordGeneratorTest
     {
-        private static String MGN_PasswordGenerator_ModelAssemblyName = "MGN.PasswordGenerator.Model";
-        private static String PasswordGeneratorClassName = "PasswordGenerator";
-
         private TestContext testContextInstance;
 
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
+        ///Gets or sets the test context which provides information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext
         {
@@ -31,44 +27,57 @@ namespace MGN.PasswordGenerator.Model.Tests
             }
         }
 
-        private static Assembly GetMGN_PasswordGenerator_ModelAssembly()
+        #region private static string Names
+        private static String ModelAssemblyName = "MGN.PasswordGenerator.Model";
+        private static String PasswordGeneratorName = "PasswordGenerator";
+        #endregion
+        
+        /// <summary>
+        /// Gets the model Assembly.
+        /// </summary>
+        /// <returns>The model Assembly</returns>
+        private static Assembly GetModelAssembly()
         {
             Assembly result = null;
             try
             {
-                var relativeAssemblyPath = String.Format("..\\..\\..\\{0}\\bin\\Debug\\{0}.dll", MGN_PasswordGenerator_ModelAssemblyName);
+                var relativeAssemblyPath = String.Format("..\\..\\..\\{0}\\bin\\Debug\\{0}.dll", ModelAssemblyName);
                 result = Assembly.LoadFrom(relativeAssemblyPath);
             }
             catch (System.IO.FileNotFoundException)
             {
-                Assert.Fail(MGN_PasswordGenerator_ModelAssemblyName + " assembly was not found.");
+                Assert.Fail(ModelAssemblyName + " Assembly was not found.");
             }
             return result;
         }
 
         /// <summary>
-        /// A test for the existence of the MGN.PasswordGenerator.Model assembly.
+        /// A test for the existence of the MGN.PasswordGenerator.Model Assembly.
         /// Assumes a relative path of MGN.PasswordGenerator\MGN.PasswordGenerator.Model\bin\Debug
         /// </summary>
         [TestMethod]
-        public void MGN_PasswordGenerator_ModelAssemblyShouldExist()
+        public void ModelAssemblyShouldExist()
         {
-            var MGN_PasswordGenerator_ModelAssembly = GetMGN_PasswordGenerator_ModelAssembly();
-            Assert.IsNotNull(MGN_PasswordGenerator_ModelAssembly, MGN_PasswordGenerator_ModelAssemblyName + " assembly should not be null.");
+            var ModelAssembly = GetModelAssembly();
+            Assert.IsNotNull(ModelAssembly, ModelAssemblyName + " Assembly should not be null.");
         }
 
-        private static Type GetPasswordGeneratorClassType()
+        /// <summary>
+        /// Gets the PasswordGenerator Type.
+        /// </summary>
+        /// <returns>The Password Generator Type</returns>
+        private static Type GetPasswordGeneratorType()
         {
             Type result = null;
-            var MGN_PasswordGenerator_ModelAssembly = GetMGN_PasswordGenerator_ModelAssembly();
-            var Class1FullName = MGN_PasswordGenerator_ModelAssemblyName + "." + PasswordGeneratorClassName;
+            var ModelAssembly = GetModelAssembly();
+            var Class1FullName = ModelAssemblyName + "." + PasswordGeneratorName;
             try
             {
-                result = MGN_PasswordGenerator_ModelAssembly.GetType(Class1FullName, true);
+                result = ModelAssembly.GetType(Class1FullName, true);
             }
             catch (TypeLoadException)
             {
-                Assert.Fail(PasswordGeneratorClassName + " type was not found.");
+                Assert.Fail(PasswordGeneratorName + " Type was not found.");
             }
             return result;
         }
@@ -77,34 +86,12 @@ namespace MGN.PasswordGenerator.Model.Tests
         /// PasswordGenerator must be public
         /// </summary>
         [TestMethod]
-        public void MGN_PasswordGenerator_ModelShouldContainPasswordGeneratorClassTest()
+        public void ModelShouldContainPasswordGenerator()
         {
-            var PasswordGeneratorClassType = GetPasswordGeneratorClassType();
-            Assert.IsNotNull(PasswordGeneratorClassType, PasswordGeneratorClassName + " type should not be null.");
-        }
+            var PasswordGeneratorType = GetPasswordGeneratorType();
+            Assert.IsNotNull(PasswordGeneratorType, PasswordGeneratorName + " Type should not be null.");
+        }       
 
-        /// <summary>
-        /// Gets an instance of a PasswordGenerator object.
-        /// </summary>
-        /// <returns></returns>
-        private static Object GetPasswordGeneratorClassInstance()
-        {
-            Object result = null;
-            var PasswordGeneratorType = GetPasswordGeneratorClassType();
-            result = Activator.CreateInstance(PasswordGeneratorType);
-            return result;
-        }
-
-        /// <summary>
-        /// Test instantiating a PasswordGenerator object.
-        /// </summary>
-        [TestMethod]
-        public void PasswordGeneratorShouldBeInstatiable()
-        {
-            var PasswordGeneratorInstance = GetPasswordGeneratorClassInstance();
-            Assert.IsNotNull(PasswordGeneratorInstance, PasswordGeneratorClassName + " was not instanciable.");
-        }
-       
         ///// <summary>
         /////A test for GeneratePassword
         /////</summary>
