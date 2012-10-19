@@ -153,13 +153,24 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(generatedPassword.IndexOfAny(upperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
             Assert.IsTrue(generatedPassword.IndexOfAny(lowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
+            var uniqueCharactersCount = GetCountOfUniqueCharacters(generatedPassword);
+            Assert.IsTrue(uniqueCharactersCount == 5, "Generated password should have 5 unique characters");
+        }
+
+        /// <summary>
+        /// Gets the count of unique characters in a string
+        /// </summary>
+        /// <param name="generatedPassword">A String to count unique characters in</param>
+        /// <returns>An Int of the count of unique characters</returns>
+        private static int GetCountOfUniqueCharacters(string generatedPassword)
+        {
             var uniqueCharacters = new System.Collections.Generic.List<char>();
             foreach (var character in generatedPassword)
             {
                 if (uniqueCharacters.Contains(character)) continue;
                 uniqueCharacters.Add(character);
             }
-            Assert.IsTrue(uniqueCharacters.Count == 5, "Generated password should have 5 unique characters");
+            return uniqueCharacters.Count;
         }
 
         private static bool UsesOneCharIn(string generatedPassword, string alphabet)
@@ -184,21 +195,33 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(all == (lowerCase + upperCase + numbers + special));
         }
 
+        /// <summary>
+        /// GeneratePassword should take a boolean called useFiller.
+        /// </summary>
         [TestMethod]
         public void GenerateShouldTakeBooleanUseFiller()
         {
-            //var passwordGeneratorType = GetPasswordGeneratorType();
-            //var generatedPassword = (String)passwordGeneratorType.InvokeMember(GeneratePasswordName,
-            //                                                                   BindingFlags.OptionalParamBinding |
-            //                                                                   BindingFlags.InvokeMethod |
-            //                                                                   BindingFlags.Static |
-            //                                                                   BindingFlags.Public,
-            //                                                                   null,
-            //                                                                   null,
-            //                                                                   new object[] { Type.Missing, false });
             var passwordGeneratorType = GetPasswordGeneratorType();
             var generatePasswordMember = passwordGeneratorType.GetMethod(GeneratePasswordName,new Type[]{typeof(Int32), typeof(Boolean)});
             Assert.IsNotNull(generatePasswordMember, GeneratePasswordName + " should accept a boolean for it's second parameter.");
+        }
+
+        [TestMethod]
+        public void UseFillerShouldWork()
+        {
+
+            var passwordGeneratorType = GetPasswordGeneratorType();
+            var generatedPassword = (String)passwordGeneratorType.InvokeMember(GeneratePasswordName,
+                                                                               BindingFlags.OptionalParamBinding |
+                                                                               BindingFlags.InvokeMethod |
+                                                                               BindingFlags.Static |
+                                                                               BindingFlags.Public,
+                                                                               null,
+                                                                               null,
+                                                                               new object[] { Type.Missing, false });
+            //generatedPassword should have very few repeated characters, if even any
+            var uniqueCharactersCount = GetCountOfUniqueCharacters(generatedPassword);
+            Assert.IsTrue(uniqueCharactersCount > 8, "Generated password should have mostly unique characters");
         }
     }
 }
