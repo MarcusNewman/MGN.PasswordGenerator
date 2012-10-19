@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace MGN.PasswordGenerator.Model
 {
-    public static class PasswordGenerator
+    public class PasswordGenerator
     {
         public static Random random = InitRandom();
         public static String GeneratePassword(int length = 15)
@@ -67,7 +67,5 @@ namespace MGN.PasswordGenerator.Model
         public const string Special = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
         public const string All = LowerCase + UpperCase + Numbers + Special;
     }
-
-
 }
 

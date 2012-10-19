@@ -1,0 +1,1 @@
+﻿This project should only be referenced in a solution located in the MGN.PasswordGenerator directory.
