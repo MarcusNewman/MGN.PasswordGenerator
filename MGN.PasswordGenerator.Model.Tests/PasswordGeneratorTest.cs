@@ -105,6 +105,17 @@ namespace MGN.PasswordGenerator.Model.Tests
         }
 
         /// <summary>
+        /// Gets PasswordGenerator.Special FieldInfo
+        /// </summary>
+        /// <returns>PasswordGenerator.Special FieldInfo</returns>
+        private static String GetFieldByName(String name)
+        {
+            var passwordGeneratorType = GetPasswordGeneratorType();
+            var fieldInfo = passwordGeneratorType.GetField(name);
+            return (String)fieldInfo.GetValue(null);
+        }
+
+        /// <summary>
         /// Test for static method PasswordGenerator.GeneratePassword should return a string.
         /// </summary>
         [TestMethod]
@@ -122,13 +133,16 @@ namespace MGN.PasswordGenerator.Model.Tests
         [TestMethod()]
         public void GeneratePasswordTests()
         {
-            var PasswordGeneratorType = GetPasswordGeneratorType();
-            var generatedPassword = (String)PasswordGeneratorType.InvokeMember(GeneratePasswordName, BindingFlags.OptionalParamBinding | BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null, new object[] { Type.Missing });
+            var passwordGeneratorType = GetPasswordGeneratorType();
+            var generatedPassword = (String)passwordGeneratorType.InvokeMember(GeneratePasswordName,
+                                                                               BindingFlags.OptionalParamBinding |
+                                                                               BindingFlags.InvokeMethod |
+                                                                               BindingFlags.Static |
+                                                                               BindingFlags.Public,
+                                                                               null,
+                                                                               null,
+                                                                               new object[] { Type.Missing });
             Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
-            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
             Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
             //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
             var uniqueCharacters = new System.Collections.Generic.List<char>();
@@ -147,15 +161,24 @@ namespace MGN.PasswordGenerator.Model.Tests
             return generatedPassword.IndexOfAny(alphabetWithoutFirst.ToCharArray()) < 0;
         }
 
-        //[TestMethod]
-        //public void PasswordGenerator_AlphabetTests()
-        //{
-        //    Assert.IsTrue(PasswordGenerator.LowerCase == "abcdefghijklmnopqrstuvwxyz");
-        //    Assert.IsTrue(PasswordGenerator.UpperCase == "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        //    Assert.IsTrue(PasswordGenerator.Numbers == "0123456789");
-        //    Assert.IsTrue(PasswordGenerator.Special == " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~");
-        //    Assert.IsTrue(PasswordGenerator.All == (PasswordGenerator.LowerCase + PasswordGenerator.UpperCase + PasswordGenerator.Numbers + PasswordGenerator.Special));
-        //}
+        [TestMethod]
+        public void PasswordGenerator_AlphabetTests()
+        {
+            var special = GetFieldByName("Special");
+            var lowerCase = GetFieldByName("LowerCase");
+            var upperCase = GetFieldByName("UpperCase");
+            var numbers = GetFieldByName("Numbers");
+            var all = GetFieldByName("All");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
+            Assert.IsTrue(lowerCase == "abcdefghijklmnopqrstuvwxyz");
+            Assert.IsTrue(upperCase == "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            Assert.IsTrue(numbers == "0123456789");
+            Assert.IsTrue(special == " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~");
+            Assert.IsTrue(all == (lowerCase + upperCase + numbers + special));
+        }
         //[TestMethod]
         //public void GenerateShouldTakeBooleanUseFiller()
         //{
