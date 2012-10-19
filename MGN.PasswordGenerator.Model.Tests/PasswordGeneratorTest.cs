@@ -30,6 +30,7 @@ namespace MGN.PasswordGenerator.Model.Tests
         #region private static string Names
         private static String ModelAssemblyName = "MGN.PasswordGenerator.Model";
         private static String PasswordGeneratorName = "PasswordGenerator";
+        private static String GeneratePasswordName = "GeneratePassword";
         #endregion
         
         /// <summary>
@@ -81,6 +82,7 @@ namespace MGN.PasswordGenerator.Model.Tests
             }
             return result;
         }
+
         /// <summary>
         /// Test for existence of MGN.PasswordGenerator.Model.PasswordGenerator class
         /// PasswordGenerator must be public
@@ -90,7 +92,29 @@ namespace MGN.PasswordGenerator.Model.Tests
         {
             var PasswordGeneratorType = GetPasswordGeneratorType();
             Assert.IsNotNull(PasswordGeneratorType, PasswordGeneratorName + " Type should not be null.");
-        }       
+        }
+
+        /// <summary>
+        /// Gets PasswordGenerator.GeneratePassword MethodInfo
+        /// </summary>
+        /// <returns>PasswordGenerator.GeneratePassword MethodInfo</returns>
+        private static MethodInfo GetGeneratePasswordMethodInfo()
+        {
+            var PasswordGeneratorType = GetPasswordGeneratorType();
+            return PasswordGeneratorType.GetMethod(GeneratePasswordName);
+        }
+
+        /// <summary>
+        /// Test for static method PasswordGenerator.GeneratePassword should return a string.
+        /// </summary>
+        [TestMethod]
+        public void GeneratePasswordShouldBeAStaticMethodReturningAString()
+        {
+            var GetNameMemberInfo = GetGeneratePasswordMethodInfo();
+            Assert.IsNotNull(GetNameMemberInfo, PasswordGeneratorName + "." + GeneratePasswordName + " method should exist.");
+            Assert.IsTrue(GetNameMemberInfo.IsStatic, GeneratePasswordName + " should be static.");
+            Assert.IsTrue(GetNameMemberInfo.ReturnType == typeof(string), GeneratePasswordName + " should return a string.");
+        }
 
         ///// <summary>
         /////A test for GeneratePassword
