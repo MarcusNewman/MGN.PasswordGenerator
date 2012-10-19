@@ -116,35 +116,37 @@ namespace MGN.PasswordGenerator.Model.Tests
             Assert.IsTrue(GetNameMemberInfo.ReturnType == typeof(string), GeneratePasswordName + " should return a string.");
         }
 
-        ///// <summary>
-        /////A test for GeneratePassword
-        /////</summary>
-        //[TestMethod()]
-        //public void GeneratePasswordTests()
-        //{
-        //    var generatedPassword = PasswordGenerator.GeneratePassword();
-        //    Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
-        //    Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
-        //    Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
-        //    Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
-        //    Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
-        //    Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
-        //    //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
-        //    var uniqueCharacters = new List<char>();
-        //    foreach (var character in generatedPassword)
-        //    {
-        //        if (uniqueCharacters.Contains(character)) continue;
-        //        uniqueCharacters.Add(character);
-        //    }
-        //    Assert.IsTrue(uniqueCharacters.Count == 5, "Generated password should have 5 unique characters");
-        //}
+        /// <summary>
+        ///A test for GeneratePassword
+        ///</summary>
+        [TestMethod()]
+        public void GeneratePasswordTests()
+        {
+            var GeneratePasswordMethodInfo = GetGeneratePasswordMethodInfo();
+            var generatedPassword = (String)GeneratePasswordMethodInfo.Invoke(null, new object[] {15});            
+            Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.UpperCase.ToCharArray()) >= 0, "Generated password should have at least one uppercase letter.");
+            //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.LowerCase.ToCharArray()) >= 0, "Generated password should have at least one lowercase letter.");
+            Assert.IsTrue(generatedPassword.Length == 15, "Generated password should be 15 characters in length.");
+            //Filler should be distinct from the other characters. This will result in 5 unique characters being selected for the password.            
+            var uniqueCharacters = new System.Collections.Generic.List<char>();
+            foreach (var character in generatedPassword)
+            {
+                if (uniqueCharacters.Contains(character)) continue;
+                uniqueCharacters.Add(character);
+            }
+            Assert.IsTrue(uniqueCharacters.Count == 5, "Generated password should have 5 unique characters");
+        }
 
-        //private static bool UsesOneCharIn(string generatedPassword, string alphabet)
-        //{
-        //    var firstalphabetChar = generatedPassword[generatedPassword.IndexOfAny(alphabet.ToCharArray())];
-        //    var alphabetWithoutFirst = alphabet.Remove(alphabet.IndexOf(firstalphabetChar), 1);
-        //    return generatedPassword.IndexOfAny(alphabetWithoutFirst.ToCharArray()) < 0;
-        //}
+        private static bool UsesOneCharIn(string generatedPassword, string alphabet)
+        {
+            var firstalphabetChar = generatedPassword[generatedPassword.IndexOfAny(alphabet.ToCharArray())];
+            var alphabetWithoutFirst = alphabet.Remove(alphabet.IndexOf(firstalphabetChar), 1);
+            return generatedPassword.IndexOfAny(alphabetWithoutFirst.ToCharArray()) < 0;
+        }
+
         //[TestMethod]
         //public void PasswordGenerator_AlphabetTests()
         //{
