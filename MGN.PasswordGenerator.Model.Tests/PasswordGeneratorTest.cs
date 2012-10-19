@@ -32,7 +32,7 @@ namespace MGN.PasswordGenerator.Model.Tests
         private static String PasswordGeneratorName = "PasswordGenerator";
         private static String GeneratePasswordName = "GeneratePassword";
         #endregion
-        
+
         /// <summary>
         /// Gets the model Assembly.
         /// </summary>
@@ -122,8 +122,8 @@ namespace MGN.PasswordGenerator.Model.Tests
         [TestMethod()]
         public void GeneratePasswordTests()
         {
-            var GeneratePasswordMethodInfo = GetGeneratePasswordMethodInfo();
-            var generatedPassword = (String)GeneratePasswordMethodInfo.Invoke(null, new object[] {15});            
+            var PasswordGeneratorType = GetPasswordGeneratorType();
+            var generatedPassword = (String)PasswordGeneratorType.InvokeMember(GeneratePasswordName, BindingFlags.OptionalParamBinding | BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null, new object[] { Type.Missing });
             Assert.IsFalse(String.IsNullOrEmpty(generatedPassword), "Generated password should not be null or empty.");
             //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Special.ToCharArray()) >= 0, "Generated password should have at least one special charachter.");
             //Assert.IsTrue(generatedPassword.IndexOfAny(PasswordGenerator.Numbers.ToCharArray()) >= 0, "Generated password should have at least one digit.");
