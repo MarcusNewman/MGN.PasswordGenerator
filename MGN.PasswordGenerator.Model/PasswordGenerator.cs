@@ -22,6 +22,7 @@ namespace MGN.PasswordGenerator.Model
             //fill the rest of the password with the filler character
             for (int i = 0; i < result.Length; i++)
             {
+                if (!useFiller) filler = GetRandomChar(All);
                 if (result[i] == '\0') result[i] = filler;
             }
             return new string(result);
